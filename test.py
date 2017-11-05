@@ -26,7 +26,7 @@ def get_price_btc():
     response = urllib.request.urlopen(request)
     html = response.read().decode('utf-8')
     ret = json.loads(html)
-    str1 = ret['mid']
+    str1 = ret['mid']['']
     print(datetime.now().strftime("%Y/%m/%d %H:%M:%S"))
     print("1btc = {0}yen\n".format(int(float(str1))))
 
