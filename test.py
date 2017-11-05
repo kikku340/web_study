@@ -5,7 +5,7 @@ import json
 import time
 from datetime import datetime
 
-value_url = "https://c-cex.com/t/prices.json"
+zny_url = "https://c-cex.com/t/prices.json"
 btc_url = "https://bitflyer.jp/api/echo/price"
 
 headers = {
@@ -22,7 +22,6 @@ def get_price(url, coin_name, price_str):
             return ret[price_str]
         return ret[coin_name][price_str]
 
-
-value_zny = get_price(value_url, 'zny-btc', 'lastbuy')
+value_zny = get_price(zny_url, 'zny-btc', 'lastbuy')
 value_btc = get_price(btc_url, "", 'mid')
 print("1zny = {0}yen\n".format(round(float(value_btc * value_zny), 3)))
