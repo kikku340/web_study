@@ -12,25 +12,17 @@ headers = {
         "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0",
         }
 
-def get_price_zeny():
-    request = urllib.request.Request(url=value_url, headers=headers)
-    response = urllib.request.urlopen(request)
-    html = response.read().decode('utf-8')
-    ret = json.loads(html)
-    str1 = ret['zny-btc']['lastbuy']
-    print(datetime.now().strftime("%Y/%m/%d %H:%M:%S"))
-    print("1bitzeny = {0}satoshi\n".format(int(float(str1) * 100000000)))
+def get_price(url, coin_name, price_str):
+        request = urllib.request.Request(url=url, headers=headers)
+        response = urllib.request.urlopen(request)
+        html = response.read().decode('utf-8')
 
-def get_price_btc():
-    request = urllib.request.Request(url=btc_url, headers=headers)
-    response = urllib.request.urlopen(request)
-    html = response.read().decode('utf-8')
-    ret = json.loads(html)
-    str1 = ret['mid']['']
-    print(datetime.now().strftime("%Y/%m/%d %H:%M:%S"))
-    print("1btc = {0}yen\n".format(int(float(str1))))
+        ret = json.loads(html)
+        if not coin_name:
+            return ret[price_str]
+        return ret[coin_name][price_str]
 
-while True:
-    #get_price_zeny()
-    get_price_btc()
-    time.sleep(60)
+
+value_zny = get_price(value_url, 'zny-btc', 'lastbuy')
+value_btc = get_price(btc_url, "", 'mid')
+print("1zny = {0}yen\n".format(round(float(value_btc * value_zny), 3)))
